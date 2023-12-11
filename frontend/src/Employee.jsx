@@ -11,6 +11,7 @@ const Employee = () => {
     const [salary,setSalary] = useState('')
     const [address,setAddress] = useState('')
     const [dob,setDob] = useState('')
+    
 
     useEffect(() => {
         const response=axios.get('http://localhost:5000/')
@@ -110,6 +111,9 @@ const Employee = () => {
                     Date of Birth
                 </th>
                 <th>
+                    Age
+                </th>
+                <th>
                     Update
                 </th>
                 <th>
@@ -119,6 +123,12 @@ const Employee = () => {
             </thead>
             <tbody>
                 {employee.map((emp) => {
+                   const today = new Date();
+                   const dobDate = new Date(emp.DOB);
+                   const ageDiff = today - dobDate;
+                   const ageInYears = Math.floor(ageDiff / (365.25 * 24 * 60 * 60 * 1000));
+
+                
                     return (
                         <tr >
                             <td>{emp.id}</td>
@@ -128,7 +138,8 @@ const Employee = () => {
                             <td>{emp.Salary}</td>
                             <td>{emp.Address}</td>
                             <td>{emp.DOB}</td>
-                            <td><Link to={`update/${emp.id}  `}>Update</Link></td>
+                            <td>{ageInYears}</td>
+                            <td><Link to={`update/${emp.id}  `}><button>Update</button></Link></td>
                             <td><button onClick={e=>handleDelete(emp.id)}> Delete</button></td>
                         </tr>
                     )
